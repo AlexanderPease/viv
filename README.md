@@ -1,7 +1,7 @@
-Ansatz.me
+Viv
 =================
 
-Crowdsourcing an email white pages
+Testing life insurance CAC
 
 
 Local Development
@@ -39,6 +39,3 @@ Built with:
 
  * Python / [Tornado](http://tornadoweb.org)
  * [Mongodb](http://www.mongodb.com/)
- * [GMail](http://gmail.com)
- * [Celery](http://www.celeryproject.org/)
- * [RabbitMQ](http://www.rabbitmq.com) (broker for Celery)
