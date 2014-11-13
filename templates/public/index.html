@@ -16,7 +16,7 @@
         <img src="{{ static_url('img/insurance_logos.jpg') }}" alt="insurance logos" class="img-round">
       </div>
 
-      <div class="group col-sm-7 index-form">
+      <div class="col-sm-7 index-form">
         <form class="form-horizontal" role="form">
           <div class="form-group">
             <label for="age" class="col-sm-3 control-label">Age</label>
@@ -60,16 +60,19 @@
               <div id="weight" class="slider"></div>
             </div>
           </div>
-
-
-          <div class="form-group">
-            <label for="age" class="col-sm-3 control-label">Recommended Coverage</label>
-            <div class="col-sm-6">
-              <div id="age" class="slider"></div>
-            </div>
-          </div>
-
         </form>
+
+        <h2>Recommended coverage</h2>
+        <div class="panel panel-default">
+          <div id="coverage" class="panel-body"></div>
+        </div>
+
+        <h2>Your quote</h2>
+        <div class="panel panel-default">
+          <div id="quote" class="panel-body">
+            <h2>Your quote</h2>
+          </div>
+        </div>
 
       </div><!--index-form-->
     </div>
@@ -80,6 +83,7 @@
 {% block javascript %}
   <script>
   $(document).ready(function(){
+    //Sliders
     var $age = $("#age").slider({ max: 100 , value: 35 });
     $age.slider("pips", {
       rest: "label",
@@ -111,7 +115,7 @@
       labels: height_labels
     });
 
-    var $weight = $("#weight").slider({ min: 100, max: 250 , value: 135 });
+    var $weight = $("#weight").slider({ min: 100, max: 260 , value: 135 });
     $weight.slider("pips", {
       step: 20,
       suffix: "lbs"
@@ -119,6 +123,10 @@
     $weight.slider("float", {
       //suffix: "lbs"
     });
+
+    //Quotes
+    $('#coverage').text('$500,000 / 20 years');
+    $('#quote').text('Just $20/month!');
   });
 
   </script>
