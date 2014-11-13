@@ -3,7 +3,6 @@ import tornado.web
 import settings
 import requests, datetime, logging
 
-from db.profiledb import Profile
 
 
 ###########################
