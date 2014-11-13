@@ -8,73 +8,72 @@
 
   <section class="hero">
     <div class="container">
-      <div class="group col-sm-5">
-        <h2>
-          Term life insurance that's the right size for you at
-          the lowest cost from the best insurance providers. 
-        </h2>
-        <img src="{{ static_url('img/insurance_logos.jpg') }}" alt="insurance logos" class="img-round">
-      </div>
+      <h1>
+        No agents. No calls. Life insurance on your terms. 
+      </h1>
 
-      <div class="col-sm-7 index-form">
+      <div class="col-sm-6 index-form">
         <form class="form-horizontal" role="form" method="POST" action="submit">
           <div class="form-group">
-            <label for="age" class="col-sm-3 control-label">Age</label>
+            <label for="age" class="col-sm-2 control-label">Age</label>
             <div class="col-sm-9">
               <div id="age" class="slider"></div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="gender" class="col-sm-3 control-label">Gender</label>
+            <label for="gender" class="col-sm-2 control-label">Gender</label>
             <div class="col-sm-9">
-              <button type="button" class="btn btn-primary">Female</button>
-              <button type="button" class="btn btn-primary">Male</button>
+              <button type="button" id="female" class="btn">Female</button>
+              <button type="button" id="male" class="btn">Male</button>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="kids" class="col-sm-3 control-label">No. of kids</label>
+            <label for="kids" class="col-sm-2 control-label"># of kids</label>
             <div class="col-sm-9">
               <div id="kids" class="slider"></div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="income" class="col-sm-3 control-label">Income</label>
+            <label for="income" class="col-sm-2 control-label">Income</label>
             <div class="col-sm-9">
               <div id="income" class="slider"></div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="height" class="col-sm-3 control-label">Height</label>
+            <label for="height" class="col-sm-2 control-label">Height</label>
             <div class="col-sm-9">
               <div id="height" class="slider"></div>
             </div>
           </div>
 
            <div class="form-group">
-            <label for="weight" class="col-sm-3 control-label">Weight</label>
+            <label for="weight" class="col-sm-2 control-label">Weight</label>
             <div class="col-sm-9">
               <div id="weight" class="slider"></div>
             </div>
           </div>
         </form>
+      </div><!--index-form-->
 
-        <h2>Recommended coverage</h2>
+      <div class="col-sm-6 index-results">
+        <h2>Recommended coverage:</h2>
         <div class="panel panel-default">
           <div id="coverage" class="panel-body"></div>
         </div>
 
-        <h2>Your quote</h2>
+        <h2>Your quote:</h2>
         <div class="panel panel-default">
           <div id="quote" class="panel-body">
             <h2>Your quote</h2>
           </div>
         </div>
 
-      </div><!--index-form-->
+        <button type="button" class="btn btn-primary btn-lg btn-block btn-cta">Learn More</button>
+      </div>
     </div>
   </section>
 
@@ -122,6 +121,17 @@
     })
     $weight.slider("float", {
       //suffix: "lbs"
+    });
+
+    //Buttons
+    $("#female").addClass('btn-primary')
+    $("#female").click(function(){
+      $(this).addClass('btn-primary');
+      $('#male').removeClass('btn-primary');
+    });
+    $("#male").click(function(){
+      $(this).addClass('btn-primary');
+      $('#female').removeClass('btn-primary');
     });
 
     //Quotes
