@@ -172,15 +172,18 @@ footer {
 .btn, .btn-primary {
     @include border-radius(5px);
     background: none repeat scroll 0% 0% #5677E8;
-    color: #FFF;
     text-decoration: none;
     display: inline-block;
     line-height: 1;
-    padding: 15px 25px;
+    padding: 10px 25px;
     text-transform: capitalize;
     font-weight: 400;
     outline: medium none;
     border: medium none;
+
+    .active {
+      color: #FFF;
+    }
 }
 
 .btn-primary {
@@ -264,4 +267,13 @@ footer {
 .popover-medium {
     max-width:1000px;
     width: auto;
+}
+
+// Viv
+.index-form {
+  //background-color: #F8F8FA;
+
+  .slider {
+    margin-top: 13px;
+  }
 }

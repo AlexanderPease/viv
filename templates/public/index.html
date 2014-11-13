@@ -1,79 +1,125 @@
 {% extends "../base.html" %}
 {% block page-title %}Home{% end %}
-{% block page-description %}Ansatz is a simple way to find someone's email address while still respecting their privacy.{% end %}
+{% block page-description %}Viv Insurance is an online life insurance search engine.{% end %}
 
 {% block body %}
-      {{ err }}
-      {{ msg }}
+  {{ err }}
+  {{ msg }}
 
-      {% if not current_user %}
-        <section class="hero">
-          <div class="container">
-            <h1>Stop Connecting. Start Emailing.</h1>
-            <div class="group">
-              <div class="span6">
-                <h2>Effortlessly email new leads, and know in seconds <br>their existing relationship to your team.</h2>
-                <p>Oh, and it's free.</p>
-                <p><a href="/auth/google" class="btn-primary btn-cta">Sign up with Google</a></p>
-              </div>
+  <section class="hero">
+    <div class="container">
+      <div class="group col-sm-5">
+        <h2>
+          Term life insurance that's the right size for you at
+          the lowest cost from the best insurance providers. 
+        </h2>
+        <img src="{{ static_url('img/insurance_logos.jpg') }}" alt="insurance logos" class="img-round">
+      </div>
+
+      <div class="group col-sm-7 index-form">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="age" class="col-sm-3 control-label">Age</label>
+            <div class="col-sm-9">
+              <div id="age" class="slider"></div>
             </div>
           </div>
-        </section>
 
-        <section class="feature">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-4 text-center">
-                <p><span class="img-anti"></span></p>
-                <h3>The Anti-CRM</h3>
-                <p>Leverage your team’s network without tedious data entry or customer tracking.</p>
-              </div>
-              <div class="col-sm-4 text-center">
-                <p><span class="img-team"></span></p>
-                <h3>Integrated Team Features</h3>
-                <p>See who has a preexisting connection before reaching out. </p>
-              </div>
-              <div class="col-sm-4 text-center">
-                <p><span class="img-target"></span></p>
-                <h3>Powerful Search</h3>
-                <p>Reliably find anyone in the world. Even if your team doesn't have a previous connection.</p>
-              </div>
-            </div>
-
-          </br></br></br>
-            <h3 style="text-align:center">Web App &amp; Gmail Web Client Integration</h3>
-            <div align="center">
-              <img src="{{ static_url('img/index/combined-nov5.jpg') }}" alt="..." class="img-round" width="1000px">
+          <div class="form-group">
+            <label for="gender" class="col-sm-3 control-label">Gender</label>
+            <div class="col-sm-9">
+              <button type="button" class="btn btn-primary">Female</button>
+              <button type="button" class="btn btn-primary">Male</button>
             </div>
           </div>
-        </section>
 
-      {% else %}
-        <section class="feature">
-          <div class="container">
-            <h2>Hi {{ current_user_casual_name() }}!</h2>
-            <p>Enter a name and domain to find an email.</p>
+          <div class="form-group">
+            <label for="kids" class="col-sm-3 control-label">No. of kids</label>
+            <div class="col-sm-9">
+              <div id="kids" class="slider"></div>
+            </div>
           </div>
-          <form id="main-search" class="form-horizontal container" action="/search" method="GET">
-            <div class="row">
-              <div class="input-group-lg col-sm-6 col-lg-4 col-xs-12">
-                <input name="name" type="text" class="form-control" placeholder="Name">
-              </div>
-              <div class="input-group input-group-lg col-sm-6 col-lg-4 col-xs-12">
-                <span class="input-group-addon">@</span>
-                <input name="domain" type="text" class="form-control" placeholder="Domain">
-              </div>
+
+          <div class="form-group">
+            <label for="income" class="col-sm-3 control-label">Income</label>
+            <div class="col-sm-9">
+              <div id="income" class="slider"></div>
             </div>
-            <div class="row">
-              <div class="col-sm-6 col-lg-4 col-xs-12 search-btn-wrap">
-                <button type="submit" class="btn btn-primary">Search</button>
-              </div>
+          </div>
+
+          <div class="form-group">
+            <label for="height" class="col-sm-3 control-label">Height</label>
+            <div class="col-sm-9">
+              <div id="height" class="slider"></div>
             </div>
-          </form>
-        </section>
-      {% end %}<!--current user-->
+          </div>
+
+           <div class="form-group">
+            <label for="weight" class="col-sm-3 control-label">Weight</label>
+            <div class="col-sm-9">
+              <div id="weight" class="slider"></div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="age" class="col-sm-3 control-label">Recommended Coverage</label>
+            <div class="col-sm-6">
+              <div id="age" class="slider"></div>
+            </div>
+          </div>
+
+        </form>
+
+      </div><!--index-form-->
+    </div>
+  </section>
+
 {% end %}
 
 {% block javascript %}
+  <script>
+  $(document).ready(function(){
+    var $age = $("#age").slider({ max: 100 , value: 35 });
+    $age.slider("pips", {
+      rest: "label",
+      step: 10
+    })
+    $age.slider("float");
 
+    var $kids = $("#kids").slider({ max: 6 , value: 2 });
+    $kids.slider("pips", {
+      rest: "label"
+    });
+
+    var $income = $("#income").slider({ min: 30, max: 100 , value: 60 });
+    $income.slider("pips", {
+      rest: "label",
+      step: 10,
+      prefix: "$",
+      suffix: "k"
+    });
+    $income.slider("float", {
+      prefix: "$",
+      suffix: "k"
+    });
+
+    var height_labels = ["5'0" + '"', "5'3" + '"', "5'6" + '"', "5'9" + '"', "6'0" + '"', "6'3" + '"'];
+    var $height = $("#height").slider({ min: 0, max: 5 , value: 2});
+    $height.slider("pips", {
+      rest: "label",
+      labels: height_labels
+    });
+
+    var $weight = $("#weight").slider({ min: 100, max: 250 , value: 135 });
+    $weight.slider("pips", {
+      step: 20,
+      suffix: "lbs"
+    })
+    $weight.slider("float", {
+      //suffix: "lbs"
+    });
+  });
+
+  </script>
 {% end %}

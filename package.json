@@ -1,5 +1,5 @@
 {
-  "name": "emailwaze",
+  "name": "viv",
   "version": "0.1.0",
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -13,7 +13,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "jshint-stylish": "^0.4.0"
   },
-  "description": "Application to enable teams to work better with email address books",
+  "description": "Testing life insurance conversion",
   "main": "index.html",
   "dependencies": {
     "grunt": "^0.4.5"
