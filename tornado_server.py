@@ -10,7 +10,7 @@ import logging
 import settings 
 import templates
 
-import app.basic, app.public, app.admin
+import app.basic, app.public, app.admin, app.api
 
 class Application(tornado.web.Application):
   def __init__(self):
@@ -28,7 +28,11 @@ class Application(tornado.web.Application):
     handlers = [
       # Admin
       (r"/admin", app.admin.AdminHome),
-      (r"/admin/db_profiles", app.admin.DB_Profiles),
+      (r"/admin/db_entry", app.admin.DB_Entry),
+
+      # API
+      (r'/api/addentry', app.api.AddEntry),
+      (r'/api/modalentry', app.api.ModalEntry),
 
       # Public
       (r'/', app.public.Index),

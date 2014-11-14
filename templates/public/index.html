@@ -85,7 +85,8 @@
         <h4 class="modal-title">Thanks!</h4>
       </div>
       <div class="modal-body">
-        Viv isn't quite launched yet, sorry! If you give us your email address
+        Viv isn't quite launched yet, sorry!</br>
+        If you give us your email address
         we'll let you know when we're ready. </br></br>
 
         <!--Visit our <a href="/about">About</a> page to learn why we can provide
@@ -114,6 +115,9 @@
 {% block javascript %}
   <script>
   $(document).ready(function(){
+    var SESSION_ID = Math.floor(Math.random()*100000000000);
+    var ROOT_URL = 'http://0.0.0.0:8001/'
+
     //Sliders
     var $age = $("#age").slider({ max: 100 , value: 35 });
     $age.slider("pips", {
@@ -139,14 +143,22 @@
       suffix: "k"
     });
 
-    var height_labels = ["5'0" + '"', "5'3" + '"', "5'6" + '"', "5'9" + '"', "6'0" + '"', "6'3" + '"'];
-    var $height = $("#height").slider({ min: 0, max: 5 , value: 2});
+    var height_labels = ["5'0" + '"', "5'1" + '"', "5'2" + '"', "5'3" + '"', "5'4" + '"',
+      "5'5" + '"', "5'6" + '"', "5'7" + '"', "5'8" + '"', "5'9" + '"',
+      "5'10" + '"', "5'11" + '"', "6'0" + '"', "6'1" + '"', "6'2" + '"', "6'3" + '"',
+       "6'4" + '"', "6'5" + '"', "6'6" + '"', "6'7" + '"', "6'8" + '"', "6'9" + '"'
+    ];
+    var $height = $("#height").slider({ min: 60, max: 80 , value: 64});
     $height.slider("pips", {
       rest: "label",
+      step: 3,
+      labels: height_labels
+    });
+    $height.slider("float", {
       labels: height_labels
     });
 
-    var $weight = $("#weight").slider({ min: 100, max: 260 , value: 135 });
+    var $weight = $("#weight").slider({ min: 100, max: 300 , value: 135 });
     $weight.slider("pips", {
       step: 20,
       suffix: "lbs"
@@ -165,24 +177,61 @@
       $(this).addClass('btn-primary');
       $('#female').removeClass('btn-primary');
     });
+
     $("#cta").click(function(){
-      var age = $("#age").slider("value");
-      var kids = $("#kids").slider("value");
-      var income = $("#income").slider("value");
-      var height = $("#height").slider("value");
-      var weight = $("#weight").slider("value");
-      var options = {};
       $('#cta-modal').modal(options);
+      var query = "age=" + $("#age").slider("value");
+      query = query + "&kids=" + $("#kids").slider("value");
+      query = query + "&income=" + (1000 * $("#income").slider("value"));
+      query = query + "&height=" + $("#height").slider("value");
+      query = query + "&weight=" + $("#weight").slider("value");
+      query = query + "&session_id=" + SESSION_ID;
+      if ($("#female").hasClass('btn-primary')){
+        query = query + "&gender=F";
+      } else {
+        query = query + "&gender=M";
+      }
+
+      /* Submit to server */
+      var options = {
+        type: 'POST',
+        url: ROOT_URL + 'api/addentry?' + query,
+        dataType: 'json',
+        //headers: {
+        //    'X-Session-Token': session.session_token,
+        //},
+        success: function(response) {
+        },
+        error: function(response) {
+        }
+      };
+      console.log('Requesting: ' + options.url)
+      $.ajax(options);
     });
+
     $("#modal-submit").click(function(){
-      var age = $("#age").slider("value");
-      var kids = $("#kids").slider("value");
-      var income = $("#income").slider("value");
-      var height = $("#height").slider("value");
-      var weight = $("#weight").slider("value");
-      var name = $("#name").val();
-      var email = $("#email").val();
-      console.log('modal submit');
+      var query = "name=" + $("#name").val();
+      query = query + "&email=" + $("#email").val();
+      query = query + "&session_id=" + SESSION_ID;
+      /* Submit to server */
+      var options = {
+        type: 'POST',
+        url: ROOT_URL + 'api/modalentry?' + query,
+        dataType: 'json',
+        //headers: {
+        //    'X-Session-Token': session.session_token,
+        //},
+        success: function(response) {
+        },
+        error: function(response) {
+        }
+      };
+      console.log('Requesting: ' + options.url)
+      $.ajax(options);
+
+      // Change modal
+      $("#modal-submit").hide();
+      $('#cta-modal .modal-body').text('Submitted! Talk to you soon!');
     });
 
     //Quotes

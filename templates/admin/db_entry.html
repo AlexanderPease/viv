@@ -1,0 +1,46 @@
+{% extends "../base.html" %}
+{% block body %}
+  <div class="feature">
+    <div class="container">
+      <h2>{{ len(entries) }} entries</h2>
+      <table class="table table-striped">
+        <tr>
+          <th>Date</th>
+          <th>Session ID</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Kids</th>
+          <th>Income</th>
+          <th>Height</th>
+          <th>Weight</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+        {% for e in entries %}
+          <tr>
+            <td>{{ e.date }}</td>
+            <td>{{ e.session_id }}</td>
+            <td>{{ e.age }}</td>
+            <td>{{ e.gender }}</td>
+            <td>{{ e.kids }}</td>
+            <td>{{ e.income }}</td>
+            <td>{{ e.height }}</td>
+            <td>{{ e.weight }}</td>
+            {% if e.name %}
+              <td>{{ e.name }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% end %}
+            {% if e.email %}
+              <td>{{ e.email }}</td>
+            {% else %}
+              <td>N/A</td>
+            {% end %}
+          </tr>
+        {% end %}
+      </table>
+    </div>
+  </div>
+{% end %}
+
+
