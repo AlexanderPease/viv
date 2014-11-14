@@ -12,7 +12,3 @@ class Index(app.basic.BaseHandler):
   def get(self):
     return self.render('public/index.html')
 
-class Submit(app.basic.BaseHandler):
-  def post(self):
-    logging.info('boo')
-
