@@ -314,7 +314,8 @@ $grey-shadow: darken($grey, 10%);
 
 .ui-slider-pips {
   .ui-slider-pip-selected-initial {
-    color: white;
+    // Essentially revert to norma, so selected-initial does nothing
+    color: white; //#999;
     font-weight: normal;
   }
   .ui-slider-pip-selected {

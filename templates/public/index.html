@@ -297,12 +297,17 @@
         value: 135 
       });
       $weight.slider("pips", {
-        step: 20,
+        rest: "label",
+        step: 40,
         suffix: "lbs"
       })
       $weight.slider("float", {
         //suffix: "lbs"
       });
+
+      $(".ui-slider-pip-selected-initial").addClass("ui-slider-pip-selected");
+      $(".ui-slider-pip-selected-initial").removeClass("ui-slider-pip-selected-initial");
+
     } // initSliders()
 
     function addCommas(str) {
