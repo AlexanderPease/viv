@@ -27,7 +27,7 @@ class AddEntry(app.basic.BaseHandler):
         if session_id:
             try:
                 entry = Entry.objects.get(session_id=session_id)
-                logging.info("Entry alread exists for session_id: %s" % session_id)
+                logging.info("Entry already exists for session_id: %s" % session_id)
             except:
                 entry = None
 

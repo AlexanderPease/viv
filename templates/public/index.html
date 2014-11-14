@@ -123,7 +123,8 @@
   <script>
     $(document).ready(function(){
       var SESSION_ID = Math.floor(Math.random()*100000000000);
-      var ROOT_URL = 'http://viv-insurance.herokuapp.com/'
+      var ROOT_URL = 'http://0.0.0.0:8001/'
+      //var ROOT_URL = 'http://viv-insurance.herokuapp.com/'
 
       initSliders();
 
@@ -146,6 +147,9 @@
         query = query + "&mortgage=" + (1000 * $("#mortgage").slider("value"));
         query = query + "&height=" + $("#height").slider("value");
         query = query + "&weight=" + $("#weight").slider("value");
+        query = query + "&coverage_amount=" + coverageCalculator();
+        query = query + "&coverage_term=20";
+        query = query + "&monthly_quote=20";
         query = query + "&session_id=" + SESSION_ID;
         if ($("#female").hasClass('btn-primary')){
           query = query + "&gender=F";
