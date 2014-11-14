@@ -18,6 +18,7 @@ class Entry(Document):
     weight = IntField()
     coverage_amount = IntField()
     coverage_term = IntField()
+    monthly_quote = IntField()
     name = StringField()
     email = StringField() # Don't validate w/ emailfield b/c they might mess up
 

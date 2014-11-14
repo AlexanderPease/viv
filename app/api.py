@@ -22,6 +22,7 @@ class AddEntry(app.basic.BaseHandler):
     weight = self.get_argument('weight','')
     coverage_amount = self.get_argument('coverage_amount','')
     coverage_term = self.get_argument('coverage_term','')
+    monthly_quote = self.get_argument('monthly_quote','')
 
     if session_id:
       try:
@@ -43,7 +44,8 @@ class AddEntry(app.basic.BaseHandler):
             height=height,
             weight=weight,
             coverage_amount=coverage_amount,
-            coverage_term=coverage_term
+            coverage_term=coverage_term,
+            monthly_quote=monthly_quote
           )
           entry.save()
           logging.info()
@@ -58,6 +60,7 @@ class AddEntry(app.basic.BaseHandler):
           logging.warning('Weight: %s' % weight)
           logging.warning('Coverage Amount: %s' % coverage_amount)
           logging.warning('Coverage Term: %s' % coverage_term)
+          logging.warning('Monthyl Quote: %s' % monthly_quote)
     return
 
 ########################
