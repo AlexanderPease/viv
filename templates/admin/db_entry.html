@@ -11,8 +11,11 @@
           <th>Gender</th>
           <th>Kids</th>
           <th>Income</th>
+          <th>Mortgage</th>
           <th>Height</th>
           <th>Weight</th>
+          <th>Coverage Amount</th>
+          <th>Coverage Term</th>
           <th>Name</th>
           <th>Email</th>
         </tr>
@@ -24,8 +27,11 @@
             <td>{{ e.gender }}</td>
             <td>{{ e.kids }}</td>
             <td>{{ e.income }}</td>
+            <td>{{ e.mortgage }}</td>
             <td>{{ e.height }}</td>
             <td>{{ e.weight }}</td>
+            <td>{{ e.coverage_amount }}</td>
+            <td>{{ e.coverage_term }}</td>
             {% if e.name %}
               <td>{{ e.name }}</td>
             {% else %}

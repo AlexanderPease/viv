@@ -13,8 +13,11 @@ class Entry(Document):
     gender = StringField(choices=GENDERS)
     kids = IntField()
     income = IntField()
+    mortgage = IntField()
     height = IntField() # 62 = 5'2"
     weight = IntField()
+    coverage_amount = IntField()
+    coverage_term = IntField()
     name = StringField()
     email = StringField() # Don't validate w/ emailfield b/c they might mess up
 

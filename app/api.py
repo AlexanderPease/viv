@@ -17,8 +17,11 @@ class AddEntry(app.basic.BaseHandler):
     gender = self.get_argument('gender','')
     kids = self.get_argument('kids','')
     income = self.get_argument('income','')
+    mortgage = self.get_argument('mortgage','')
     height = self.get_argument('height','')
     weight = self.get_argument('weight','')
+    coverage_amount = self.get_argument('coverage_amount','')
+    coverage_term = self.get_argument('coverage_term','')
 
     if session_id:
       try:
@@ -36,8 +39,12 @@ class AddEntry(app.basic.BaseHandler):
             gender=gender,
             kids=kids,
             income=income,
+            mortgage=mortgage,
             height=height,
-            weight=weight)
+            weight=weight,
+            coverage_amount=coverage_amount,
+            coverage_term=coverage_term
+          )
           entry.save()
           logging.info()
         except:
@@ -46,8 +53,11 @@ class AddEntry(app.basic.BaseHandler):
           logging.warning('Gender: %s' % gender)
           logging.warning('Kids: %s' % kids)
           logging.warning('Income: %s' % income)
+          logging.warning('Mortgage: %s' % mortgage)
           logging.warning('Height: %s' % height)
           logging.warning('Weight: %s' % weight)
+          logging.warning('Coverage Amount: %s' % coverage_amount)
+          logging.warning('Coverage Term: %s' % coverage_term)
     return
 
 ########################
