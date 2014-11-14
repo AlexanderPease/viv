@@ -323,3 +323,7 @@ $grey-shadow: darken($grey, 10%);
     font-weight: normal;
   }
 } 
+
+.ui-slider-float .ui-slider-tip {
+  width: auto;
+}
