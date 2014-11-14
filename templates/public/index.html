@@ -121,168 +121,208 @@
 
 {% block javascript %}
   <script>
-  $(document).ready(function(){
-    var SESSION_ID = Math.floor(Math.random()*100000000000);
-    var ROOT_URL = 'http://viv-insurance.herokuapp.com/'
+    $(document).ready(function(){
+      var SESSION_ID = Math.floor(Math.random()*100000000000);
+      var ROOT_URL = 'http://viv-insurance.herokuapp.com/'
 
-    //Sliders
-    var $age = $("#age").slider({ 
-      max: 100 , 
-      value: 35 
-    });
-    $age.slider("pips", {
-      rest: "label",
-      step: 10
-    })
-    $age.slider("float");
+      initSliders();
 
-    var $kids = $("#kids").slider({ 
-      max: 6 , 
-      value: 2 
-    });
-    $kids.slider("pips", {
-      rest: "label"
-    });
+      //Buttons
+      $("#female").addClass('btn-primary')
+      $("#female").click(function(){
+        $(this).addClass('btn-primary');
+        $('#male').removeClass('btn-primary');
+      });
+      $("#male").click(function(){
+        $(this).addClass('btn-primary');
+        $('#female').removeClass('btn-primary');
+      });
 
-    var $income = $("#income").slider({ 
-      min: 30, 
-      max: 100 , 
-      value: 60 
-    });
-    $income.slider("pips", {
-      rest: "label",
-      step: 10,
-      prefix: "$",
-      suffix: "k"
-    });
-    $income.slider("float", {
-      prefix: "$",
-      suffix: "k"
-    });
+      $("#cta").click(function(){
+        $('#cta-modal').modal(options);
+        var query = "age=" + $("#age").slider("value");
+        query = query + "&kids=" + $("#kids").slider("value");
+        query = query + "&income=" + (1000 * $("#income").slider("value"));
+        query = query + "&mortgage=" + (1000 * $("#mortgage").slider("value"));
+        query = query + "&height=" + $("#height").slider("value");
+        query = query + "&weight=" + $("#weight").slider("value");
+        query = query + "&session_id=" + SESSION_ID;
+        if ($("#female").hasClass('btn-primary')){
+          query = query + "&gender=F";
+        } else {
+          query = query + "&gender=M";
+        }
 
-    //var mortgage_labels = ["$0", "$200k", "$400k", "$600k", "$800k", "$1M"];
-    var $mortgage = $("#mortgage").slider({ 
-      min: 0, 
-      max: 1000 , 
-      value: 300 
-    });
-    $mortgage.slider("pips", {
-      rest: "label",
-      step: 200,
-      prefix: "$",
-      suffix: "k",
-      //labels: mortgage_labels
-    });
-    $mortgage.slider("float", {
-      prefix: "$",
-      suffix: "k",
-      //labels: mortgage_labels
-    });
+        /* Submit to server */
+        var options = {
+          type: 'POST',
+          url: ROOT_URL + 'api/addentry?' + query,
+          dataType: 'json',
+          success: function(response) {
+          },
+          error: function(response) {
+          }
+        };
+        console.log('Requesting: ' + options.url)
+        $.ajax(options);
+      });
 
-    var height_labels = ["5'0" + '"', "5'1" + '"', "5'2" + '"', "5'3" + '"', "5'4" + '"',
-      "5'5" + '"', "5'6" + '"', "5'7" + '"', "5'8" + '"', "5'9" + '"',
-      "5'10" + '"', "5'11" + '"', "6'0" + '"', "6'1" + '"', "6'2" + '"', "6'3" + '"',
-       "6'4" + '"', "6'5" + '"', "6'6" + '"', "6'7" + '"', "6'8" + '"', "6'9" + '"'
-    ];
-    var $height = $("#height").slider({ 
-      min: 60, 
-      max: 80 , 
-      value: 64
-    });
-    $height.slider("pips", {
-      rest: "label",
-      step: 3,
-      labels: height_labels
-    });
-    $height.slider("float", {
-      labels: height_labels
-    });
+      $("#modal-submit").click(function(){
+        var query = "name=" + $("#name").val();
+        query = query + "&email=" + $("#email").val();
+        query = query + "&session_id=" + SESSION_ID;
+        /* Submit to server */
+        var options = {
+          type: 'POST',
+          url: ROOT_URL + 'api/modalentry?' + query,
+          dataType: 'json',
+          success: function(response) {
+          },
+          error: function(response) {
+          }
+        };
+        console.log('Requesting: ' + options.url)
+        $.ajax(options);
 
-    var $weight = $("#weight").slider({ 
-      min: 100, 
-      max: 300 , 
-      value: 135 
-    });
-    $weight.slider("pips", {
-      step: 20,
-      suffix: "lbs"
-    })
-    $weight.slider("float", {
-      //suffix: "lbs"
-    });
+        // Change modal
+        $("#modal-submit").hide();
+        $('#cta-modal .modal-body').text('Submitted! Talk to you soon!');
+      });
 
-    //Buttons
-    $("#female").addClass('btn-primary')
-    $("#female").click(function(){
-      $(this).addClass('btn-primary');
-      $('#male').removeClass('btn-primary');
-    });
-    $("#male").click(function(){
-      $(this).addClass('btn-primary');
-      $('#female').removeClass('btn-primary');
-    });
+      // Bind change in vars to updating outputs
+      $('#kids').on('slidechange', function(){updateCoverage()});
+      $('#income').on('slidechange', function(){updateCoverage()});
+      $('#mortgage').on('slidechange', function(){updateCoverage()});
 
-    $("#cta").click(function(){
-      $('#cta-modal').modal(options);
-      var query = "age=" + $("#age").slider("value");
-      query = query + "&kids=" + $("#kids").slider("value");
-      query = query + "&income=" + (1000 * $("#income").slider("value"));
-      query = query + "&mortgage=" + (1000 * $("#mortgage").slider("value"));
-      query = query + "&height=" + $("#height").slider("value");
-      query = query + "&weight=" + $("#weight").slider("value");
-      query = query + "&session_id=" + SESSION_ID;
-      if ($("#female").hasClass('btn-primary')){
-        query = query + "&gender=F";
-      } else {
-        query = query + "&gender=M";
+      //Quotes
+      updateCoverage();
+      $('#quote').text('Just $20/month!');
+    });
+    
+    function updateCoverage() {
+      /* Updates coverage amount div */
+      var coverage_amount = coverageCalculator();
+      $('#coverage').text("$" + addCommas(coverage_amount) + " / 20 years");
+    }
+
+    function coverageCalculator() {
+      /* Calculates and returns coverage amount based on current state of form */
+      var income = $("#income").slider("value");
+      var kids = $("#kids").slider("value");
+      var mortgage = $("#mortgage").slider("value");
+      return (income * 3.5) + (kids * 150000) + mortgage;
+    }
+
+    function initSliders(){
+      /* Inits all sliders on the page */
+      var $age = $("#age").slider({ 
+        max: 100 , 
+        value: 35 
+      });
+      $age.slider("pips", {
+        rest: "label",
+        step: 10
+      })
+      $age.slider("float");
+
+      var $kids = $("#kids").slider({ 
+        max: 6 , 
+        value: 2 
+      });
+      $kids.slider("pips", {
+        rest: "label"
+      });
+
+      var $income = $("#income").slider({ 
+        min: 30, 
+        max: 100 , 
+        value: 60 
+      });
+      $income.slider("pips", {
+        rest: "label",
+        step: 10,
+        prefix: "$",
+        suffix: "k"
+      });
+      $income.slider("float", {
+        prefix: "$",
+        suffix: "k"
+      });
+
+      //var mortgage_labels = ["$0", "$200k", "$400k", "$600k", "$800k", "$1M"];
+      var $mortgage = $("#mortgage").slider({ 
+        min: 0, 
+        max: 1000 , 
+        value: 300 
+      });
+      $mortgage.slider("pips", {
+        rest: "label",
+        step: 200,
+        prefix: "$",
+        suffix: "k",
+        //labels: mortgage_labels
+      });
+      $mortgage.slider("float", {
+        prefix: "$",
+        suffix: "k",
+        //labels: mortgage_labels
+      });
+
+      var height_labels = ["5'0" + '"', "5'1" + '"', "5'2" + '"', "5'3" + '"', "5'4" + '"',
+        "5'5" + '"', "5'6" + '"', "5'7" + '"', "5'8" + '"', "5'9" + '"',
+        "5'10" + '"', "5'11" + '"', "6'0" + '"', "6'1" + '"', "6'2" + '"', "6'3" + '"',
+         "6'4" + '"', "6'5" + '"', "6'6" + '"', "6'7" + '"', "6'8" + '"', "6'9" + '"'
+      ];
+      var $height = $("#height").slider({ 
+        min: 60, 
+        max: 80 , 
+        value: 64
+      });
+      $height.slider("pips", {
+        rest: "label",
+        step: 3,
+        labels: height_labels
+      });
+      $height.slider("float", {
+        labels: height_labels
+      });
+
+      var $weight = $("#weight").slider({ 
+        min: 100, 
+        max: 300 , 
+        value: 135 
+      });
+      $weight.slider("pips", {
+        step: 20,
+        suffix: "lbs"
+      })
+      $weight.slider("float", {
+        //suffix: "lbs"
+      });
+    } // initSliders()
+
+    function addCommas(str) {
+      /* Formats numbers to string with commas
+        Ex: 6565 -> "6,565" */
+      var parts = (str + "").split("."),
+        main = parts[0],
+        len = main.length,
+        output = "",
+        i = len - 1;
+
+      while(i >= 0) {
+        output = main.charAt(i) + output;
+        if ((len - i) % 3 === 0 && i > 0) {
+            output = "," + output;
+        }
+        --i;
       }
-
-      /* Submit to server */
-      var options = {
-        type: 'POST',
-        url: ROOT_URL + 'api/addentry?' + query,
-        dataType: 'json',
-        //headers: {
-        //    'X-Session-Token': session.session_token,
-        //},
-        success: function(response) {
-        },
-        error: function(response) {
-        }
-      };
-      console.log('Requesting: ' + options.url)
-      $.ajax(options);
-    });
-
-    $("#modal-submit").click(function(){
-      var query = "name=" + $("#name").val();
-      query = query + "&email=" + $("#email").val();
-      query = query + "&session_id=" + SESSION_ID;
-      /* Submit to server */
-      var options = {
-        type: 'POST',
-        url: ROOT_URL + 'api/modalentry?' + query,
-        dataType: 'json',
-        //headers: {
-        //    'X-Session-Token': session.session_token,
-        //},
-        success: function(response) {
-        },
-        error: function(response) {
-        }
-      };
-      console.log('Requesting: ' + options.url)
-      $.ajax(options);
-
-      // Change modal
-      $("#modal-submit").hide();
-      $('#cta-modal .modal-body').text('Submitted! Talk to you soon!');
-    });
-
-    //Quotes
-    $('#coverage').text('$500,000 / 20 years');
-    $('#quote').text('Just $20/month!');
-  });
+      // put decimal part back
+      if (parts.length > 1) {
+        output += "." + parts[1];
+      }
+      return output;
+    }
 
   </script>
 {% end %}
