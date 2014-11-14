@@ -253,23 +253,30 @@
         suffix: "k"
       });
 
-      //var mortgage_labels = ["$0", "$200k", "$400k", "$600k", "$800k", "$1M"];
+      var mortgage_labels = [];
+      var max_mortgage = 1000;
+      var mortgage_step = 200;
+      for (i=0; i <= max_mortgage; i++) {
+        if (i<1000) {
+          mortgage_labels[i] = "$" + i + "k";
+        } else {
+          var num = i / 1000;
+          mortgage_labels[i] = "$" + num + "M";
+        }
+        
+      }
       var $mortgage = $("#mortgage").slider({ 
         min: 0, 
-        max: 1000 , 
+        max: max_mortgage, 
         value: 300 
       });
       $mortgage.slider("pips", {
         rest: "label",
-        step: 200,
-        prefix: "$",
-        suffix: "k",
-        //labels: mortgage_labels
+        step: mortgage_step,
+        labels: mortgage_labels
       });
       $mortgage.slider("float", {
-        prefix: "$",
-        suffix: "k",
-        //labels: mortgage_labels
+        labels: mortgage_labels
       });
 
       var height_labels = ["5'0" + '"', "5'1" + '"', "5'2" + '"', "5'3" + '"', "5'4" + '"',
