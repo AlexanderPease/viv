@@ -75,7 +75,6 @@
         <h2>Your quote:</h2>
         <div class="panel panel-default">
           <div id="quote" class="panel-body">
-            <h2>Your quote</h2>
           </div>
         </div>
 
@@ -197,10 +196,13 @@
       $('#kids').on('slidechange', function(){updateCoverage()});
       $('#income').on('slidechange', function(){updateCoverage()});
       $('#mortgage').on('slidechange', function(){updateCoverage()});
+      $('#age').on('slidechange', function(){updateQuote()});
+      $('#height').on('slidechange', function(){updateQuote()});
+      $('#weight').on('slidechange', function(){updateQuote()});
 
       //Quotes
       updateCoverage();
-      $('#quote').text('Just $20/month!');
+      updateQuote();
     });
     
     function updateCoverage() {
@@ -215,6 +217,27 @@
       var kids = $("#kids").slider("value");
       var mortgage = $("#mortgage").slider("value");
       return (income * 3.5) + (kids * 150000) + mortgage;
+    }
+
+    function updateQuote() {
+      /* Updates coverage amount div */
+      var quote = quoteCalculator();
+      $('#quote').text("Just $" + addCommas(quote) + " / month");
+    }
+
+    function quoteCalculator() {
+      /* Calculates and returns coverage amount based on current state of form */
+      var age = $("#age").slider("value");
+      var height = $("#height").slider("value");
+      var weight = $("#weight").slider("value");
+      var BMI = 0.149*(age*age) - 8.7617*age + 147.89;
+      if (BMI > 25) {
+        var quote = 0.149*(age*age) - 8.7617*age + 147.89 + (weight/(height*height) * 703)*4.2667 - 117.17;
+      } else {
+        var quote = (0.149*(age*age) - 8.7617*age + 147.89);
+      }
+      // Truncate decimal places
+      return Math.floor(quote * 100) / 100;
     }
 
     function initSliders(){
