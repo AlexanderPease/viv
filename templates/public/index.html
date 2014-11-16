@@ -242,6 +242,9 @@
         quote = 15;
       }
 
+      // Normalize from $500k policy
+      quote = quote * coverageCalculator() / 500000;
+
       // Truncate decimal places
       return Math.floor(quote * 100) / 100;
     }
@@ -350,6 +353,7 @@
     function addCommas(str) {
       /* Formats numbers to string with commas
         Ex: 6565 -> "6,565" */
+      console.log(str);
       var parts = (str + "").split("."),
         main = parts[0],
         len = main.length,
@@ -367,6 +371,15 @@
       if (parts.length > 1) {
         output += "." + parts[1];
       }
+
+      //correct number of decimals
+      if (output.split(".").length > 1) {
+        decimals = output.split(".")[1];
+        if (decimals.length == 1) {
+          output = output + "0";
+        }
+      }
+
       return output;
     }
 
