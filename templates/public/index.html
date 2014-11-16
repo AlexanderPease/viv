@@ -230,12 +230,18 @@
       var age = $("#age").slider("value");
       var height = $("#height").slider("value");
       var weight = $("#weight").slider("value");
-      var BMI = 0.149*(age*age) - 8.7617*age + 147.89;
+      var BMI = 703 * weight/(height*height);
+      console.log('BMI: ' + BMI);
       if (BMI > 25) {
         var quote = 0.149*(age*age) - 8.7617*age + 147.89 + (weight/(height*height) * 703)*4.2667 - 117.17;
       } else {
         var quote = (0.149*(age*age) - 8.7617*age + 147.89);
       }
+      // Set floor
+      if (quote < 15) {
+        quote = 15;
+      }
+
       // Truncate decimal places
       return Math.floor(quote * 100) / 100;
     }
@@ -243,7 +249,8 @@
     function initSliders(){
       /* Inits all sliders on the page */
       var $age = $("#age").slider({ 
-        max: 100 , 
+        min: 20,
+        max: 100, 
         value: 35 
       });
       $age.slider("pips", {
