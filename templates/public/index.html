@@ -209,6 +209,7 @@
       /* Updates coverage amount div */
       var coverage_amount = coverageCalculator();
       $('#coverage').text("$" + addCommas(coverage_amount) + " / 20 years");
+      updateQuote(); // b/c coverage affects the quote
     }
 
     function coverageCalculator() {
